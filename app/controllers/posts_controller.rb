@@ -2,12 +2,17 @@ class PostsController < ApplicationController
   before_action :authenticate_account!, except: [:index]
 
   def index
-    @posts = Post.all
+    @posts = Post.order(created_at: :desc)
   end
 
   def new
     @post = Post.new
   end
+
+  def show
+    @post = Post.find(params[:id])
+  end
+  
 
   def create
     @post = current_account.posts.build(post_params)

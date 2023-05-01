@@ -6,8 +6,14 @@
         <% if post && post.image.attached? %>
           <%= image_tag post.image, class: "card-img-top", style: "max-height: 250px;, max-width: 100px;" %>
         <% end %>
-        <h2 class="card-title mt-3"><%= post.description %></h2>
-        <p class="card-text">Posted by <%= post.account.username %></p>
+        <div class="col">
+          <div class="row">
+        <p class="card-title mt-3">Description: <%= post.description %></p>
+        </div>
+        <div class="row">
+        <p><span>Posted by <%= link_to "@#{post.account.username}", profile_show_path(username: post.account.username) %> at <%= post.created_at %> </span></p>
+        </div>
+        </div>
       </div>
     </div>
   <% end %>

@@ -1,0 +1,8 @@
+<div class="container">
+  <% if @post.image.attached? %>
+    <%= image_tag @post.image, style: "max-height: 400px; max-width: 100%;" %>
+  <% end %>
+  <h2><%= @post.description %></h2>
+  <p><%= @post.created_at %></p>
+  <%= link_to "Back", :back %>
+</div>

@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   get 'posts/index'
   get 'posts/new'
+  get 'posts/show'
   get '/profiles/:username', to: 'profile#show', as: 'profile_show'
   get 'accounts/new'
   get 'accounts/create'
@@ -12,7 +13,7 @@ Rails.application.routes.draw do
     sessions: 'accounts/sessions'
   }
 
-  resources :posts, only: [:new, :create, :index]
+  resources :posts, only: [:new, :create, :index, :show]
 
   root to: "home#index"
 
