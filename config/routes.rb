@@ -15,6 +15,16 @@ Rails.application.routes.draw do
 
   resources :posts, only: [:new, :create, :index, :show]
 
+  resources :follows, only: [:create, :destroy]
+
+
+  post 'follow/:id' => 'follows#follow', as: 'follow_account'
+  delete 'follow/:id' => 'follows#unfollow', as: 'unfollow_account'
+
+  get 'profile/:id', to: 'profile#show', as: 'profile'
+
+  
+
   root to: "home#index"
 
   devise_scope :account do

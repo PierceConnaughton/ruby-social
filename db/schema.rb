@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_05_01_155308) do
+ActiveRecord::Schema[7.0].define(version: 2023_05_01_212122) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "btree_gin"
   enable_extension "btree_gist"
@@ -95,6 +95,15 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_01_155308) do
     t.index ["post_id"], name: "index_comments_on_post_id"
   end
 
+  create_table "follows", force: :cascade do |t|
+    t.bigint "follower_id", null: false
+    t.bigint "followee_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["followee_id"], name: "index_follows_on_followee_id"
+    t.index ["follower_id"], name: "index_follows_on_follower_id"
+  end
+
   create_table "likes", force: :cascade do |t|
     t.bigint "account_id", null: false
     t.bigint "post_id", null: false
@@ -117,6 +126,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_01_155308) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "comments", "accounts"
   add_foreign_key "comments", "posts"
+  add_foreign_key "follows", "accounts", column: "followee_id"
+  add_foreign_key "follows", "accounts", column: "follower_id"
   add_foreign_key "likes", "accounts"
   add_foreign_key "likes", "posts"
   add_foreign_key "posts", "accounts"

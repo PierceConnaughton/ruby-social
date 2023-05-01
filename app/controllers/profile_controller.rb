@@ -4,6 +4,13 @@ class ProfileController < ApplicationController
   def show
     @account = Account.find_by(username: params[:username])
     @posts = @account.posts.order(created_at: :desc) if @account
+    if @account.username.nil?
+      # handle the case when the account does not have a username
+      # you can redirect to an error page or display a default username
+      @username = "Unknown user"
+    else
+      @username = @account.username
+    end
   end
   
 
@@ -19,6 +26,19 @@ class ProfileController < ApplicationController
     else
       render 'edit'
     end
+  end
+
+  def follow
+    followee = Account.find_by(username: params[:username])
+    current_account.following << followee
+    redirect_to profile_show_path(followee.username)
+  end
+
+  def unfollow
+    followee = Account.find_by(username: params[:username])
+    current_account.active_follows.find_by(followee_id: followee.id).destroy
+    redirect_to profile_show_path(followee.username)
+    
   end
 
   private
