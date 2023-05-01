@@ -2,6 +2,8 @@
 <p>Find me in app/views/home/index.html.erb</p>
 <% if account_signed_in? %>
   <%= link_to "Sign out", destroy_account_session_path, method: :delete, data: { turbolinks: false } %>
+  <%= link_to "My Profile", profile_show_path(username: current_account.username) %>
+
 <% else %>
   <%= link_to "Sign up", new_account_registration_path %>
   <%= link_to "Sign in", new_account_session_path %>

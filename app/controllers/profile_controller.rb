@@ -2,9 +2,10 @@ class ProfileController < ApplicationController
   before_action :authenticate_account!
 
   def show
-    @account = Account.find(params[:id])
-    @posts = @account.posts.order(created_at: :desc)
+    @account = Account.find_by(username: params[:username])
+    @posts = @account.posts.order(created_at: :desc) if @account
   end
+  
 
   def edit
     @account = current_account
