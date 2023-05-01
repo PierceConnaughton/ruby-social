@@ -52,6 +52,8 @@ gem "aws-sdk-s3"
 
 gem "pg"
 
+gem 'bootstrap', '~> 5.1'
+
 # Use Sass to process CSS
 # gem "sassc-rails"
 
@@ -80,3 +82,5 @@ group :test do
   gem "selenium-webdriver"
   gem "webdrivers"
 end
+
+

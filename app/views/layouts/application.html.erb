@@ -6,15 +6,60 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
+    <%= stylesheet_link_tag 'https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css' %>
+    <%= javascript_include_tag 'https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js' %>
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
   </head>
 
   <body>
-
-       <%- flash.each do |name, msg| -%>
-    <%= content_tag :div, msg, :id => "flash_#{name}" if msg.is_a?(String) %>
-  <%- end -%>  
-    <%= yield %>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <div class="container-fluid">
+        <% if account_signed_in? %>
+          <%= link_to "RubySocial", root_path, class: "navbar-brand" %>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto">
+               <li class="nav-item">
+                <%= link_to "Dashboard", posts_index_path, class: "nav-link" %>
+              </li>
+              <li class="nav-item">
+                <%= link_to "My Profile", profile_show_path(username: current_account.username), class: "nav-link" %>
+              </li>
+              <li class="nav-item">
+                <%= link_to "New Post", new_post_path, class: "nav-link" %>
+              </li>
+            </ul>
+            <ul class="navbar-nav">
+              <li class="nav-item">
+                <%= link_to "Logout", destroy_account_session_path, method: :delete, class: "nav-link" %>
+              </li>
+            </ul>
+          </div>
+        <% else %>
+          <%= link_to "RubySocial", root_path, class: "navbar-brand" %>
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto">
+            </ul>
+            <ul class="navbar-nav">
+              <li class="nav-item">
+                <%= link_to "Login", new_account_session_path, class: "nav-link" %>
+              </li>
+              <li class="nav-item">
+                <%= link_to "Signup", new_account_registration_path, class: "nav-link" %>
+              </li>
+            </ul>
+          </div>
+        <% end %>
+      </div>
+    </nav>
+    <div class="container mt-3">
+      <% flash.each do |name, msg| %>
+        <%= content_tag :div, msg, class: "alert alert-#{name}", role: "alert" if msg.is_a?(String) %>
+      <% end %>
+      <%= yield %>
+    </div>
   </body>
 </html>
