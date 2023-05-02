@@ -8,6 +8,8 @@ class Account < ApplicationRecord
 
   has_many :posts, dependent: :destroy
 
+  validates :username, uniqueness: true
+
   
 
 
