@@ -40,15 +40,48 @@
   <div class="row mt-3">
     <% posts.each do |post| %>
       <div class="col-md-4">
-        <div class="card">
-          <div class="card-body">
-            <% if post && post.image.attached? %>
-              <%= image_tag post.image, class: "card-img-top" %>
-            <% end %>
-            <%= link_to "View post", post_path(post), class: "btn btn-primary" %>
+        <%= link_to post_path(post) do %>
+          <div class="card post-card">
+            <div class="card-body">
+              <% if post && post.image.attached? %>
+                <%= image_tag post.image, class: "card-img-top" %>
+              <% end %>
+              <div class="likes-count hidden">
+                <%= post.likes_count %> likes
+              </div>
+            </div>
           </div>
-        </div>
+        <% end %>
       </div>
     <% end %>
   </div>
 <% end %>
+
+<script>
+// select all post cards
+let allPostCards = document.querySelectorAll('.post-card');
+
+// loop through each post card
+allPostCards.forEach(postCard => {
+  // select the likes count element within this post card
+  const likesCount = postCard.querySelector('.likes-count');
+
+  // get the number of likes
+  const numLikes = parseInt(likesCount.innerText);
+
+  // set the text content based on the number of likes
+  likesCount.textContent = `${numLikes} ${numLikes === 1 ? 'like' : 'likes'}`;
+
+  // show the likes count when the user hovers over the card
+  postCard.addEventListener('mouseover', () => {
+    likesCount.classList.remove('hidden');
+  });
+
+  // hide the likes count when the user moves the mouse away from the card
+  postCard.addEventListener('mouseout', () => {
+    likesCount.classList.add('hidden');
+  });
+});
+
+</script>
+

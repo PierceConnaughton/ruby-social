@@ -12,10 +12,6 @@ class Accounts::RegistrationsController < Devise::RegistrationsController
   def create
     super
   end
-  
-  
-
-
 
   #GET /resource/edit
   def edit

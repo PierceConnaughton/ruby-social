@@ -1,6 +1,6 @@
 <div class="posts-wrapper d-flex justify-content-center">
   <% @posts.each do |post| %>
-    <div style="max-height: 600px; max-width: 450px;" class="card my-3">
+    <div style=" max-width: 450px;" class="card my-3">
       <div class="card-body">
         <% if post && post.image.attached? %>
           <%= image_tag post.image, class: "card-img-top", style: "max-height: 250px; max-width: 450px;" %>
@@ -10,7 +10,7 @@
             <p class="card-title mt-3"> <%= post.description %></p>
           </div>
           <div class="row">
-            <p><span>Posted by <%= link_to "@#{post.account.username}", profile_show_path(username: post.account.username) %> on <%= post.created_at.strftime('%B %d, %Y') %> </span></p>
+            <p><span>Posted by <%= link_to "@#{post.account.username}", profile_show_path(username: post.account.username), class: "text-decoration-none" %> on <%= post.created_at.strftime('%B %d, %Y') %> </span></p>
           </div>
           <p><strong>Total Likes:</strong> <%= post.likes_count %></p>
           <% if current_account && (like = post.likes.find_by(account: current_account)) %>
@@ -18,8 +18,35 @@
           <% else %>
             <%= button_to "Like", post_likes_path(post), method: :post, class: "btn btn-primary" %>
           <% end %>
+          <div class="row my-3">
+            <%= form_with(model: [ post, Comment.new ], local: true, class: "w-100") do |form| %>
+              <div class="form-group"></div>
+                <%= form.label :body, "Leave a comment" %>
+                <%= form.text_area :body, class: "form-control", rows: 1 %>
+              </div>
+              <br>
+              <%= form.submit "Submit", class: "btn btn-primary" %>
+              <br>
+              <br>
+            <% end %>
+          </div>
+          <div class="row">
+          
+            <% post.comments.first(2).each do |comment| %>
+              <div class="col-md-12 mb-3 comment-section post-<%= post.id %>">
+                <p class="card-text"><%= comment.body %></p>
+              </div>
+            <% end %>
+             
+          </div>
+
+          <div class="row">
+             <%= link_to "View Full Post", post_path(post) %>
+          </div>
         </div>
       </div>
     </div>
   <% end %>
 </div>
+
+<div>

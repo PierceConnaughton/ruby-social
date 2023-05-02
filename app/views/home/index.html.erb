@@ -1,4 +1,15 @@
 <h1>Welcome to Ruby Social</h1>
+<% if account_signed_in? %>
+              <p>Visit the dashboard too display your feed <%= link_to "Dashboard", posts_index_path%> </p>
 
+
+              <p>Visit your profile to look at your posts and edit your account  <%= link_to "My Profile", profile_show_path(username: current_account.username) %> </p>
+
+
+              <p>Go to create a new posr here <%= link_to "New Post", new_post_path %> </p>
+
+<% else %>
+       Too access the features of this website you will need to Sign up/Sign in
        <%= link_to "Login", new_account_session_path, class: "btn btn-primary" %>
        <%= link_to "Signup", new_account_registration_path, class: "btn btn-secondary" %>
+<% end %>

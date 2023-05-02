@@ -16,6 +16,7 @@ Rails.application.routes.draw do
   resources :posts, only: [:new, :create, :index, :show]
 
   resources :follows, only: [:create, :destroy]
+  
 
 
   post 'follow/:id' => 'follows#follow', as: 'follow_account'
@@ -26,6 +27,7 @@ Rails.application.routes.draw do
   
   resources :posts do
     resources :likes, only: [:create, :destroy]
+    resources :comments, only: [:create, :edit, :update, :destroy]
   end
 
   root to: "home#index"
