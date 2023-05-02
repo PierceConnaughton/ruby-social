@@ -11,8 +11,19 @@
         <p class="card-title mt-3">Description: <%= post.description %></p>
         </div>
         <div class="row">
-        <p><span>Posted by <%= link_to "@#{post.account.username}", profile_show_path(username: post.account.username) %> at <%= post.created_at %> </span></p>
+        <p><span>Posted by <%= link_to "@#{post.account.username}", profile_show_path(username: post.account.username) %> on <%= post.created_at.strftime('%B %d, %Y') %> </span></p>
         </div>
+        <p><strong>Total Likes:</strong> <%= post.likes_count %></p>
+       <% if current_account && (like = post.likes.find_by(account: current_account)) %>
+  <%= button_to "Unlike", post_like_path(post, like), method: :delete, class: "btn btn-danger" %>
+
+<% else %>
+  <%= button_to "Like", post_likes_path(post), method: :post, class: "btn btn-primary" %>
+<% end %>
+
+
+
+
         </div>
       </div>
     </div>

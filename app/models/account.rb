@@ -8,6 +8,9 @@ class Account < ApplicationRecord
 
   has_many :posts, dependent: :destroy
 
+  
+
+
   # Relationships
   has_many :active_follows, class_name: "Follow", foreign_key: "follower_id", dependent: :destroy
   has_many :passive_follows, class_name: "Follow", foreign_key: "followee_id", dependent: :destroy

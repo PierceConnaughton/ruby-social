@@ -24,6 +24,9 @@ Rails.application.routes.draw do
   get 'profile/:id', to: 'profile#show', as: 'profile'
 
   
+  resources :posts do
+    resources :likes, only: [:create, :destroy]
+  end
 
   root to: "home#index"
 
