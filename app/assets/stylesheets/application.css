@@ -11,7 +11,8 @@
  * It is generally better to create a new file per style scope.
  *
  *= require_tree .
- *= require_self
+ *= require_self 
+ *= require font-awesome
  */
  .posts-wrapper {
     margin: 0 auto;
@@ -38,4 +39,8 @@
   .hidden {
     display: none;
   }
+
+  
+
+  
   

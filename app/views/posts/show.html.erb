@@ -1,24 +1,64 @@
-<div class="posts-wrapper d-flex justify-content-center">
-<div style="max-height: 600px; max-width: 450px;" class="card my-3">
+<div class="posts-wrapper d-flex justify-content-center text-dark">
+<div style="max-width: 450px;" class="card my-3">
       <div class="card-body">
-        <% if @post && @post.image.attached? %>
-          <%= image_tag @post.image, class: "card-img-top", style: "max-height: 250px; max-width: 450px;" %>
+         <div class="row">
+          <div class="col-2"> 
+            <% if @post.account.profile_image.attached? %>
+            <%= image_tag @post.account.profile_image, class: "rounded-circle", style: "max-height: 50px; max-width: 50px;" %>
+          <% end %>
+          </div>
+          <div class="col-10">
+            <p><span> <%= link_to "@#{@post.account.username}", profile_show_path(username: @post.account.username), class: "text-decoration-none" %> on <%= @post.created_at.strftime('%B %d, %Y') %> </span></p>
+          </div>
+        </div>
+         <% if @post && @post.image.attached? %>
+          <div class="row">
+            <%= image_tag @post.image, class: "card-img-top", style: "max-height: 250px; max-width: 450px;" %>
+          </div>
         <% end %>
         <div class="col">
           <div class="row">
             <p class="card-title mt-3"> <%= @post.description %></p>
           </div>
           <div class="row">
-            <p><span>Posted by <%= link_to "@#{@post.account.username}", profile_show_path(username: @post.account.username) %> on <%= @post.created_at.strftime('%B %d, %Y') %> </span></p>
+            <div class="col-6">
+              <% if current_account && (like = @post.likes.find_by(account: current_account)) %>
+                <%= button_to "Unlike", post_like_path(@post, like), method: :delete, class: "btn btn-danger" %>
+              <% else %>
+                <%= button_to "Like", post_likes_path(@post), method: :post, class: "btn btn-primary" %>
+              <% end %>
+            </div>
+            <div class="col-6">
+              <p><strong>Total Likes:</strong> <%= @post.likes_count %></p>
+            </div>
           </div>
-          <p><strong>Total Likes:</strong> <%= @post.likes_count %></p>
-          <% if current_account && (like = @post.likes.find_by(account: current_account)) %>
-            <%= button_to "Unlike", post_like_path(@post, like), method: :delete, class: "btn btn-danger" %>
-          <% else %>
-            <%= button_to "Like", post_likes_path(@post), method: :post, class: "btn btn-primary" %>
-          <% end %>
-          <br>
-          <%= link_to "Back", :back, class: "btn btn-secondary" %>
+         
+<div class="row mt-2">
+         <%= form_with(model: [ @post, Comment.new ], local: true, class: "w-100") do |form| %>
+    <div class="form-group d-flex">
+      <%= form.text_field :body, class: "form-control mr-2", rows: 1, placeholder: "Leave a comment", required: true %>
+      <%= form.submit "Submit", class: "btn btn-primary" %>
+    </div>
+  <% end %>
+  </div>
+   <div class="row mt-2">
+            <div class="col-9">
+            <p><strong>Total Comments:</strong> <%= @post.comments_count %></p>
+            </div>
+             <div class="col-3">
+            <%= link_to "Back", :back, class: "btn btn-secondary" %>
+            </div>
+        </div>
+          <div class="row mt-2">
+  <% @post.comments.each do |comment| %>
+    <div class="mt-1 row comment-section post-<%= @post.id %>">
+        <p class="card-text col-4"><%= link_to "@#{comment.account.username}", profile_show_path(username: comment.account.username), class: "text-decoration-none" %></p>
+        <p class="card-text col-8"><%= comment.body %></p>
+    </div>
+  <% end %>
+</div>
+
+          
         </div>
       </div>
     </div>

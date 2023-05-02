@@ -12,7 +12,7 @@
     <%= javascript_importmap_tags %>
   </head>
 
-  <body>
+  <body class="bg-dark text-white">
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
       <div class="container-fluid">
         <% if account_signed_in? %>
@@ -59,8 +59,97 @@
  
       <%= yield %>
     </div>
+     <div class="push"></div>
   </body>
+
+<!-- Footer -->
+<footer class="text-center text-lg-start bg-secondary mt-4 fixed-bottom" style="padding: 0px; font-size: 0.8rem;">
+  <!-- Section: Links  -->
+  <section class="">
+    <div class="container text-center text-md-start mt-2">
+      <!-- Grid row -->
+      <div class="row mt-3">
+        <!-- Grid column -->
+        <div class="col-md-6 col-lg-6 col-xl-5 mx-auto mb-4">
+          <!-- Content -->
+          <h6 class="fw-bold mb-4">
+            ABOUT
+          </h6>
+          <p>
+            Hello I am Pierce Connaughton and this is my first Ruby On Rails website. 
+            The website allows you to create posts on the website that other users can like and comment on.
+            You can also choose to follow other users on the site displaying there posts on your feed first.
+            I used PostgreSQL for the database and Action Storage to store the images that the users upload.
+          </p>
+        </div>
+
+        <!-- Grid column -->
+        <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
+          <!-- Links -->
+          <h6 class="text-uppercase fw-bold mb-4">
+            Quick links
+          </h6>
+          <% if account_signed_in? %>
+          <p>
+            <%= link_to "Dashboard", posts_index_path, class: "text-light" %>
+          </p>
+           <p>
+            <%= link_to "My Profile", profile_show_path(username: current_account.username), class: "text-light" %>
+          </p>
+          <p>
+            <%= link_to "New Post", new_post_path, class: "text-light" %>
+          </p>
+           <p>
+            <%= link_to "Logout", destroy_account_session_path, method: :delete, class: "text-light" %>
+          </p>
+
+          <% else %>
+          <p>
+             <%= link_to "Login", new_account_session_path, class: "text-light" %>
+          </p>
+           <p>
+             <%= link_to "Signup", new_account_registration_path, class: "text-light" %>
+          </p>
+          <%end%>
+          
+         
+        </div>
+
+       
+
+
+
+        <!-- Grid column -->
+        <div class="col-md-4 col-lg-3 col-xl-2 mx-auto mb-md-0 mb-4">
+          <!-- Links -->
+          <h6 class="text-uppercase fw-bold mb-4">
+            Contact
+          </h6>
+          <p><i class="fa fa-map-marker"></i>&nbsp; Sligo Town, Co.Sligo, Republic Of Ireland.</p>
+          <p>
+            <i class="fa fa-envelope"></i>&nbsp; <a href="mailto:ti436522@gmail.com" target="_blank"
+              class="text-light">ti436522@gmail.com</a>
+          </p>
+          <p><i class="fa fa-phone"></i>&nbsp; +353 083-074-7786</p>
+
+        </div>
+        <!-- Grid column -->
+      </div>
+      <!-- Grid row -->
+    </div>
+  </section>
+  <!-- Section: Links  -->
+
+  <!-- Copyright -->
+  <div class="text-center p-2" style="background-color: rgba(0, 0, 0, 0.05);">
+    &copy; 2023 Copyright: <a href="https://pierce-connaughton.ie/" class="text-white">Pierce Connaughton</a> All rights reserved
+  </div>
+  <!-- Copyright -->
+</footer>
+<!-- Footer -->
 </html>
+
+
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 

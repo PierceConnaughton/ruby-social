@@ -13,6 +13,14 @@
         <% if current_account == @account %>
           <%= link_to "Edit Profile", edit_account_registration_path(current_account), class: "btn btn-primary float-right" %>
         <% end %>
+         <% if current_account != @account %>
+  <% unless current_account.following?(@account) %>
+  <%= button_to "Follow", follow_account_path(username: @account.username, id: @account.id), method: :post, class: "btn btn-primary" %>
+  <% else %>
+  
+    <%= button_to "Unfollow", unfollow_account_path(username: @account.username, id: @account.id), method: :delete, class: "btn btn-danger" %>
+  <% end %>
+<% end %>
       </div>
     </div>
     <div class="row">

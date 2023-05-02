@@ -8,4 +8,8 @@ class Post < ApplicationRecord
     likes.count
   end
 
+  def comments_count
+    comments.count
+  end
+
 end

@@ -1,52 +1,132 @@
-<div class="posts-wrapper d-flex justify-content-center">
-  <% @posts.each do |post| %>
-    <div style=" max-width: 450px;" class="card my-3">
-      <div class="card-body">
-        <% if post && post.image.attached? %>
-          <%= image_tag post.image, class: "card-img-top", style: "max-height: 250px; max-width: 450px;" %>
-        <% end %>
-        <div class="col">
-          <div class="row">
-            <p class="card-title mt-3"> <%= post.description %></p>
-          </div>
-          <div class="row">
-            <p><span>Posted by <%= link_to "@#{post.account.username}", profile_show_path(username: post.account.username), class: "text-decoration-none" %> on <%= post.created_at.strftime('%B %d, %Y') %> </span></p>
-          </div>
-          <p><strong>Total Likes:</strong> <%= post.likes_count %></p>
-          <% if current_account && (like = post.likes.find_by(account: current_account)) %>
-            <%= button_to "Unlike", post_like_path(post, like), method: :delete, class: "btn btn-danger" %>
-          <% else %>
-            <%= button_to "Like", post_likes_path(post), method: :post, class: "btn btn-primary" %>
-          <% end %>
-          <div class="row my-3">
-            <%= form_with(model: [ post, Comment.new ], local: true, class: "w-100") do |form| %>
-              <div class="form-group"></div>
-                <%= form.label :body, "Leave a comment" %>
-                <%= form.text_area :body, class: "form-control", rows: 1 %>
-              </div>
-              <br>
-              <%= form.submit "Submit", class: "btn btn-primary" %>
-              <br>
-              <br>
-            <% end %>
-          </div>
-          <div class="row">
-          
-            <% post.comments.first(2).each do |comment| %>
-              <div class="col-md-12 mb-3 comment-section post-<%= post.id %>">
-                <p class="card-text"><%= comment.body %></p>
-              </div>
-            <% end %>
-             
-          </div>
+<div class="posts-wrapper justify-content-center">
+  <div class="row mt-1 text-center">
+    <% if @posts_following.present? %>
+      <p class="text-center">Follower Posts.</p>
+    <% else %>
+      <p class="text-center">You are not following anyone.</p>
+    <% end %>
+  </div>
 
-          <div class="row">
-             <%= link_to "View Full Post", post_path(post) %>
+  <% @posts_following.each do |post| %>
+    <div style="max-width: 450px;" class="card my-3 mx-auto text-center text-dark">
+      <div class="card-body">
+        <div class="row my-1">
+          <div class="col-2">
+            <% if post.account.profile_image.attached? %>
+              <%= image_tag post.account.profile_image, class: "rounded-circle", style: "max-height: 50px; max-width: 50px;" %>
+            <% end %>
           </div>
+          <div class="col-10">
+            <p>
+              <span>
+                <%= link_to "@#{post.account.username}", profile_show_path(username: post.account.username), class: "text-decoration-none" %>
+                on <%= post.created_at.strftime('%B %d, %Y') %>
+              </span>
+            </p>
+          </div>
+        </div>
+
+        <% if post && post.image.attached? %>
+          <div class="row">
+            <%= image_tag post.image, class: "card-img-top", style: "max-height: 250px; max-width: 450px;" %>
+          </div>
+        <% end %>
+
+        <br>
+
+        <div class="row">
+          <div class="col-6">
+            <% if current_account && (like = post.likes.find_by(account: current_account)) %>
+              <%= button_to "Unlike", post_like_path(post, like), method: :delete, class: "btn btn-danger" %>
+            <% else %>
+              <%= button_to "Like", post_likes_path(post), method: :post, class: "btn btn-primary" %>
+            <% end %>
+          </div>
+          <div class="col-6">
+            <p><strong>Total Likes:</strong> <%= post.likes_count %></p>
+          </div>
+        </div>
+
+        <div class="row">
+          <p class="card-title mt-1"><%= post.description %></p>
+        </div>
+
+        <div class="row mt-1">
+          <div class="col-12">
+            <p><strong>Total Comments:</strong> <%= post.comments_count %></p>
+          </div>
+        </div>
+
+        <div class="row mt-1">
+          <% post.comments.first(2).each do |comment| %>
+            <div class="row mb-1 comment-section post-<%= post.id %>">
+              <p class="card-text col-4">
+                <%= link_to "@#{comment.account.username}", profile_show_path(username: comment.account.username), class: "text-decoration-none" %>
+              </p>
+              <p class="card-text col-8"><%= comment.body %></p>
+            </div>
+          <% end %>
+        </div>
+
+        <div class="row">
+          <%= link_to "View Full Post", post_path(post) %>
         </div>
       </div>
     </div>
   <% end %>
-</div>
 
-<div>
+  <hr class="hr" />
+<div class="row mt-1 text-center">
+<p class="text-center">Suggested Non Follower Posts.</p>
+</div>
+  <% @posts_not_following.each do |post| %>
+    <div style="max-width: 450px;" class="card my-3 mx-auto text-center text-dark">
+      <div class="card-body">
+        <div class="row my-1">
+          <div class="col-2 ">
+             <% if post.account.profile_image.attached? %>
+            <%= image_tag post.account.profile_image, class: "rounded-circle", style: "max-height: 50px; max-width: 50px;" %>
+          <% end %>
+          </div>
+          <div class="col-10">
+            <p><span> <%= link_to "@#{post.account.username}", profile_show_path(username: post.account.username), class: "text-decoration-none" %> on <%= post.created_at.strftime('%B %d, %Y') %> </span></p>
+          </div>
+        </div>
+        <% if post && post.image.attached? %>
+          <div class="row">
+            <%= image_tag post.image, class: "card-img-top", style: "max-height: 250px; max-width: 450px;" %>
+          </div>
+        <% end %>
+        <br>
+        <div class="row">
+            <div class="col-12">
+              <p><strong>Total Likes:</strong> <%= post.likes_count %></p>
+            </div>
+          </div>
+        <div class="row">
+          <p class="card-title mt-1"><%= post.description %></p>
+          
+        </div>
+
+<div class="row mt-1">
+    <div class="col-12">
+            <p><strong>Total Comments:</strong> <%= post.comments_count %></p>
+            </div>
+  </div>
+
+          <div class="row mt-1">
+            <% post.comments.first(2).each do |comment| %>
+              <div class="row mb-1 comment-section post-<%= post.id %>">
+                <p class="card-text col-4"><%= link_to "@#{comment.account.username}", profile_show_path(username: comment.account.username), class: "text-decoration-none" %></p>
+                 <p class="card-text col-8"><%= comment.body %></p>
+              </div>
+            <% end %>
+          </div>
+          <div class="row">
+            <%= link_to "View Full Post", post_path(post) %>
+          </div>
+        </div>
+</div>
+    </div>
+  <% end %>
+</div>

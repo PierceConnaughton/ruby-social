@@ -50,7 +50,11 @@ gem 'figaro'
 
 gem "aws-sdk-s3"
 
+gem "font-awesome-sass", "~> 6.4.0"
+
 gem "pg"
+
+gem "font-awesome-rails"
 
 gem 'bootstrap', '~> 5.1'
 
