@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_05_01_212122) do
+ActiveRecord::Schema[7.0].define(version: 2023_05_02_214609) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "btree_gin"
   enable_extension "btree_gist"
@@ -55,6 +55,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_01_212122) do
     t.datetime "updated_at", null: false
     t.index ["email"], name: "index_accounts_on_email", unique: true
     t.index ["reset_password_token"], name: "index_accounts_on_reset_password_token", unique: true
+    t.index ["username"], name: "accounts_username_key", unique: true
   end
 
   create_table "active_storage_attachments", force: :cascade do |t|
@@ -128,7 +129,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_01_212122) do
   add_foreign_key "comments", "posts"
   add_foreign_key "follows", "accounts", column: "followee_id"
   add_foreign_key "follows", "accounts", column: "follower_id"
-  add_foreign_key "likes", "accounts"
+  add_foreign_key "likes", "accounts", on_delete: :cascade
   add_foreign_key "likes", "posts"
   add_foreign_key "posts", "accounts"
 end

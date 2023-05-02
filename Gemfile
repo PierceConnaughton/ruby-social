@@ -60,6 +60,8 @@ gem 'bootstrap', '~> 5.1'
 
 gem 'popper_js', '~> 2.11.7'
 
+gem 'turbo-rails'
+
 # Use Sass to process CSS
 # gem "sassc-rails"
 

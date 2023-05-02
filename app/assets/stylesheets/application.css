@@ -18,6 +18,10 @@
     margin: 0 auto;
   }
 
+  body {
+    padding-bottom: 15%;
+}
+
   .likes-count {
     position: absolute;
     bottom: 0;
