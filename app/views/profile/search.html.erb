@@ -1,0 +1,24 @@
+
+  <h1 class="mb-4">Search Results for username "<%= @query %>"</h1>
+
+  <% if @accounts.any? %>
+    <ul class="list-group" style="max-width:600px">
+      <% @accounts.each do |account| %>
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+          <% if account.profile_image.attached? %>
+            <%= image_tag account.profile_image, class: "rounded-circle mr-3", style: "max-height: 50px; max-width: 50px;" %>
+          <% end %>
+            <%= link_to "@#{account.username}", profile_show_path(account.username), class: "text-primary" %>
+          <div>
+          
+            <% if account.first_name? && account.last_name? %>
+              <div class="small text-muted"><%= account.first_name %> <%= account.last_name %></div>
+            <% end %>
+          </div>
+        </li>
+      <% end %>
+    </ul>
+  <% else %>
+    <p>No results found.</p>
+  <% end %>
+

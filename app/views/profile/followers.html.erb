@@ -1,0 +1,24 @@
+<h2 class="mb-4">All Followers</h2>
+<% if @followers.present? %>
+  <ul class="list-group" style="max-width:600px">
+    <% @followers.each do |follower| %>
+      <li class="list-group-item d-flex justify-content-between align-items-center">
+        <div class="col-auto">
+          <% if follower.profile_image.attached? %>
+            <%= image_tag follower.profile_image, class: "rounded-circle mr-3", style: "max-height: 50px; max-width: 50px;" %>
+          <% end %>
+        </div>
+        <div class="col-auto">
+          <%= link_to "@#{follower.username}", profile_show_path(username: follower.username), class: "text-decoration-none" %>
+        </div>
+        <% if follower.first_name? && follower.last_name? %>
+          <div class="col-auto">
+            <%= follower.first_name %> <%= follower.last_name %>
+          </div>
+        <% end %>
+      </li>
+    <% end %>
+  </ul>
+<% else %>
+  <p>You are not followed by anyone</p>
+<% end %>

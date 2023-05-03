@@ -14,47 +14,55 @@
 
   <body class="bg-dark text-white">
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-      <div class="container-fluid">
-        <% if account_signed_in? %>
-          <%= link_to "RubySocial", root_path, class: "navbar-brand" %>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav me-auto">
-               <li class="nav-item">
-                <%= link_to "Dashboard", posts_index_path, class: "nav-link" %>
-              </li>
-              <li class="nav-item">
-                <%= link_to "My Profile", profile_show_path(username: current_account.username), class: "nav-link" %>
-              </li>
-              <li class="nav-item">
-                <%= link_to "New Post", new_post_path, class: "nav-link" %>
-              </li>
-            </ul>
-            <ul class="navbar-nav">
-              <li class="nav-item">
-                <%= link_to "Logout", destroy_account_session_path, method: :delete, class: "nav-link" %>
-              </li>
-            </ul>
-          </div>
-        <% else %>
-          <%= link_to "RubySocial", root_path, class: "navbar-brand" %>
-          <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav me-auto">
-            </ul>
-            <ul class="navbar-nav">
-              <li class="nav-item">
-                <%= link_to "Login", new_account_session_path, class: "nav-link" %>
-              </li>
-              <li class="nav-item">
-                <%= link_to "Signup", new_account_registration_path, class: "nav-link" %>
-              </li>
-            </ul>
-          </div>
-        <% end %>
+  <div class="container-fluid">
+    <% if account_signed_in? %>
+      <%= link_to "RubySocial", root_path, class: "navbar-brand" %>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+           <li class="nav-item">
+            <%= link_to "Dashboard", posts_index_path, class: "nav-link" %>
+          </li>
+          <li class="nav-item">
+            <%= link_to "My Profile", profile_show_path(username: current_account.username), class: "nav-link" %>
+          </li>
+          <li class="nav-item">
+            <%= link_to "New Post", new_post_path, class: "nav-link" %>
+          </li>
+          <li class="nav-item">
+            <%= form_tag profile_search_path, method: :get, class: "d-flex" do %>
+              <%= text_field_tag :q, params[:q], placeholder: "Search for user", class: "form-control me-2" %>
+              <%= submit_tag "Search", class: "btn btn-outline-primary" %>
+            <% end %>
+          </li>
+        </ul>
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <%= link_to "Logout", destroy_account_session_path, method: :delete, class: "nav-link" %>
+          </li>
+        </ul>
       </div>
-    </nav>
+    <% else %>
+      <%= link_to "RubySocial", root_path, class: "navbar-brand" %>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        </ul>
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <%= link_to "Login", new_account_session_path, class: "nav-link" %>
+          </li>
+          <li class="nav-item">
+            <%= link_to "Signup", new_account_registration_path, class: "nav-link" %>
+          </li>
+        </ul>
+      </div>
+    <% end %>
+  </div>
+</nav> 
+
+
     <div class="container mt-3">
  
       <%= yield %>
@@ -76,8 +84,8 @@
             ABOUT
           </h6>
           <p>
-            Hello I am Pierce Connaughton and this is my first Ruby On Rails website. 
-            The website allows you to create posts on the website that other users can like and comment on.
+            Hello I am Pierce Connaughton and this is my first Ruby On Rails web-app. 
+            The web-app allows you to create posts, that other users can like and comment on.
             You can also choose to follow other users on the site displaying there posts on your feed first.
             I used PostgreSQL for the database and Action Storage to store the images that the users upload.
           </p>
@@ -102,6 +110,8 @@
            <p>
             <%= link_to "Logout", destroy_account_session_path, method: :delete, class: "text-light" %>
           </p>
+         
+
 
           <% else %>
           <p>

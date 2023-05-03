@@ -2,6 +2,9 @@ Rails.application.routes.draw do
   get 'posts/index'
   get 'posts/new'
   get 'posts/show'
+  get '/profiles/:username/followers', to: 'profile#followers', as: 'profile_followers'
+  get '/profiles/:username/following', to: 'profile#following', as: 'profile_following'
+  get '/profiles/search', to: 'profile#search', as: 'profile_search'
   get '/profiles/:username', to: 'profile#show', as: 'profile_show'
   get 'accounts/new'
   get 'accounts/create'
@@ -17,13 +20,11 @@ Rails.application.routes.draw do
 
   resources :follows, only: [:create, :destroy]
   
+  
 
 
   post 'follow/:id' => 'follows#follow', as: 'follow_account'
   delete 'follow/:id' => 'follows#unfollow', as: 'unfollow_account'
-
-  get 'profile/:id', to: 'profile#show', as: 'profile'
-
   
   resources :posts do
     resources :likes, only: [:create, :destroy]

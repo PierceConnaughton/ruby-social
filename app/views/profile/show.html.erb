@@ -35,13 +35,19 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-md-12">
-        <% if @account.first_name? && @account.last_name %>
-          <p> <%= @account.first_name %> <%= @account.last_name %></p>
-        <% end %>
+      <div class="col-md-2">
+          <% if @account.first_name? && @account.last_name %>
+            <p> <%= @account.first_name %> <%= @account.last_name %></p>
+          <% end %>
+        </div>
+        <div class="col-md-2">
+        <%= link_to "Followers", profile_followers_path(username: @account.username), class: "text-light" %>
+        </div>
+        <div class="col-md-2">
+         <%= link_to "Following", profile_following_path(username: @account.username), class: "text-light" %>
+         </div>
       </div>
     </div>
-  </div>
 </div>
 
 <% @posts.each_slice(3) do |posts| %>

@@ -1,13 +1,16 @@
+
+
+
 <div class="posts-wrapper justify-content-center">
-  <div class="row mt-1 text-center">
+  <div class="row mt-1 text-center ">
     <% if @posts_following.present? %>
-      <p class="text-center">Follower Posts.</p>
+      <p class="text-center">Recent posts by users you follow</p>
     <% else %>
       <p class="text-center">You are not following anyone.</p>
     <% end %>
   </div>
 
-  <% @posts_following.each do |post| %>
+  <% @posts_following.first(5).each do |post| %>
     <div style="max-width: 450px;" class="card my-3 mx-auto text-center text-dark">
       <div class="card-body">
         <div class="row my-1">
@@ -58,7 +61,7 @@
         </div>
 
         <div class="row mt-1">
-          <% post.comments.first(2).each do |comment| %>
+          <% post.comments.first(5).each do |comment| %>
             <div class="row mb-1 comment-section post-<%= post.id %>">
               <p class="card-text col-4">
                 <%= link_to "@#{comment.account.username}", profile_show_path(username: comment.account.username), class: "text-decoration-none" %>
@@ -76,8 +79,10 @@
   <% end %>
 
   <hr class="hr" />
+
+
 <div class="row mt-1 text-center">
-<p class="text-center">Suggested Non Follower Posts.</p>
+<p class="text-center">Suggested Posts</p>
 </div>
   <% @posts_not_following.each do |post| %>
     <div style="max-width: 450px;" class="card my-3 mx-auto text-center text-dark">

@@ -13,6 +13,11 @@ class ProfileController < ApplicationController
     end
   end
   
+  def search
+    @query = params[:q]
+    @accounts = Account.where("username LIKE ?", "%#{@query}%")
+  end
+
 
   def edit
     @account = current_account
@@ -40,6 +45,17 @@ class ProfileController < ApplicationController
     redirect_to profile_show_path(followee.username)
     
   end
+
+  def followers
+    account = Account.find_by(username: params[:username])
+    @followers = account.followers
+  end
+
+  def following
+    account = Account.find_by(username: params[:username])
+    @following = account.following
+  end
+  
 
   private
 
