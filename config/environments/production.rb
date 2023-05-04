@@ -30,6 +30,8 @@ if ENV["RAILS_LOG_TO_STDOUT"].present?
   config.logger = ActiveSupport::TaggedLogging.new(logger)
 end
 
+config.assets.css_compressor = nil
+
   # Compress CSS using a preprocessor.
   # config.assets.css_compressor = :sass
 
